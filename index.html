@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de cosas</title>
+    <script src="jquery-3.6.0.js"></script>
+    <script src="js.js"></script>
+    <link rel="stylesheet" href="css.css">
+</head>
+<body>
+<div id="form-cliente">
+    <fieldset>
+        <legend>Añadir clientes</legend>
+        <label for="nombre-input">Nombre </label><br>
+        <input type="text" placeholder="Jose Luis Martinez" id="nombre-input"><br>
+        <label for="email-input">Email </label><br>
+        <input type="email" placeholder="paco@paco.com" id="email-input"><br>
+        <label for="altura-input">Altura</label><br>
+        <input type="number" placeholder="altura (en centímetros)" id="altura-input"><br>
+        <label for="peso-input">Peso </label><br>
+        <input type="number" placeholder="peso (en kilogramos)" id="peso-input"><br>
+        <label for="edad-input">Edad </label><br>
+        <input type="number" placeholder="edad" id="edad-input">
+        <button id="submit-cliente">Enviar</button>
+    </fieldset>
+</div>
+<div>
+    <fieldset>
+        <legend>Lista clientes</legend>
+        <ul id="lista-clientes">
+        </ul>
+    </fieldset>
+</div>
+
+<div id="form-entrenamiento">
+    <fieldset>
+        <legend>Añadir entrenamiento</legend>
+        <label for="duracion-input">Duracion </label><br>
+        <input type="number" placeholder="duración (en minutos)" id="duracion-input"><br>
+        <label for="distancia-input">Distancia </label><br>
+        <input type="number" placeholder="distancia (en kilometros)" id="distancia-input">
+        <button id="submit-entrenamiento">Enviar</button>
+    </fieldset>
+</div>
+
+<div id="panel-opciones">
+
+    <fieldset>
+        <legend>Opciones</legend>
+        <button id="ver-entrenamientos">Ver entrenamientos</button>
+        <button>Ver Récords</button>
+        <select name="paco" id="paco">
+            <option value="1">Mayor distancia</option>
+            <option value="2">Mayor duración</option>
+            <option value="3">Mejor ritmo</option>
+        </select>
+    </fieldset>
+</div>
+<div>
+<fieldset>
+    <legend>Lista Entrenamientos</legend>
+    <ul id="lista-entrenamientos">
+
+    </ul>
+</fieldset>
+</div>
+
+</body>
+</html>
