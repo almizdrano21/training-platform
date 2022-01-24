@@ -2,69 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Gestión de cosas</title>
-    <script src="jquery-3.6.0.js"></script>
-    <script src="js.js"></script>
-    <link rel="stylesheet" href="css.css">
+    <title>xD</title>
+    <link rel="stylesheet" href="style/css.css">
+    <link rel="stylesheet" href="style/loading.css">
+    <style>
+
+    </style>
 </head>
 <body>
-<div id="form-cliente">
-    <fieldset>
+<div class="loader-page"></div>
+<header>Gestión de entrenamientos - JS y Jquery</header>
 
-        <legend>Añadir clientes</legend>
-        <label for="nombre-input">Nombre </label><br>
-        <input type="text" placeholder="Jose Luis Martinez" id="nombre-input"><br>
-        <label for="email-input">Email </label><br>
-        <input type="email" placeholder="paco@paco.com" id="email-input"><br>
-        <label for="altura-input">Altura</label><br>
-        <input type="number" placeholder="altura (en centímetros)" id="altura-input"><br>
-        <label for="peso-input">Peso </label><br>
-        <input type="number" placeholder="peso (en kilogramos)" id="peso-input"><br>
-        <label for="edad-input">Edad </label><br>
-        <input type="number" placeholder="edad" id="edad-input">
-        <button id="submit-cliente">Enviar</button>
-    </fieldset>
-</div>
-<div>
-    <fieldset>
-        <legend>Lista clientes</legend>
-        <ul id="lista-clientes">
-        </ul>
-    </fieldset>
+<div class="wrapper">
+    <div class="inicio-sesion">
+        <img src="https://uybor.uz/borless/uybor/img/user-images/user_no_photo_600x600.png" alt="">
+        <input type="text" placeholder="nombre de usuario...">
+        <input type="password" placeholder="contraseña...">
+        <button id="iniciar-sesion">INICIAR SESIÓN</button>
+    </div>
 </div>
 
-<div id="form-entrenamiento">
-    <fieldset>
-        <legend>Añadir entrenamiento</legend>
-        <label for="duracion-input">Duracion </label><br>
-        <input type="number" placeholder="duración (en minutos)" id="duracion-input"><br>
-        <label for="distancia-input">Distancia </label><br>
-        <input type="number" placeholder="distancia (en kilometros)" id="distancia-input">
-        <button id="submit-entrenamiento">Enviar</button>
-    </fieldset>
+<main>
+<div class="form-persona" id="form-cliente">
+    <h2>Añadir clientes</h2><br>
+    <label for="nombre-input">Nombre </label>
+    <input type="text" placeholder="Jose Luis Martinez" id="nombre-input">
+    <label for="email-input">Email </label>
+    <input type="email" placeholder="paco@paco.com" id="email-input">
+    <label for="altura-input">Altura</label>
+    <input type="number" placeholder="altura (en centímetros)" id="altura-input">
+    <label for="peso-input">Peso </label>
+    <input type="number" placeholder="peso (en kilogramos)" id="peso-input">
+    <label for="edad-input">Edad </label>
+    <input type="number" placeholder="edad" id="edad-input">
+    <button id="submit-cliente">GUARDAR</button>
 </div>
+<div class="lista-clientes">
+<ul id="lista-clientes">
 
-<div id="panel-opciones">
-
-    <fieldset>
-        <legend>Opciones</legend>
-        <button id="ver-entrenamientos">Ver entrenamientos</button>
-        <button>Ver Récords</button>
-        <select name="paco" id="paco">
-            <option value="1">Mayor distancia</option>
-            <option value="2">Mayor duración</option>
-            <option value="3">Mejor ritmo</option>
-        </select>
-    </fieldset>
+</ul>
 </div>
-<div>
-<fieldset>
-    <legend>Lista Entrenamientos</legend>
+<div class="lista-entrenamientos" id="form-entrenamiento">
+    <h2>Añadir entrenamientos</h2>
+    <label for="duracion-input">Duracion </label>
+    <input type="number" placeholder="duración (en minutos)" id="duracion-input">
+    <label for="distancia-input">Distancia </label>
+    <input type="number" placeholder="distancia (en kilometros)" id="distancia-input">
+    <button id="submit-entrenamiento">Enviar</button>
+</div>
+    <div class="lista-entrenamientos">
+        <h2>Lista de entrenamientos</h2>
     <ul id="lista-entrenamientos">
-
     </ul>
-</fieldset>
+    </div>
+</main>
+<div class="warning">
+    <p>¡Este cliente aún no tiene ningún entrenamiento!</p>
 </div>
+
+<script src="jquery-3.6.0.js"></script>
+<script src="js.js"></script>
+
 
 </body>
 </html>

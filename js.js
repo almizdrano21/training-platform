@@ -4,68 +4,33 @@
  * @description Este programa hecho con JS y JQuery nos permite gestionar la información de unos clientes
  * así como guardar y visualizar información sobre sus entrenamientos.
  *
- * TODO hacer el login
- * TODO que las ventanas no se muestren hasta haber creado un cliente/ entrenamiento
- * TODO hacer que las ventanas vayan apareciendo segun elijas las opciones
- * TODO hacer recuadritos para ir avisando de lo que hay que hacer y lo que no
+ * TODO el ritmo y el nivel del entrenamiento se tienen que calcular mejor
+ * TODO el slideshow de imagenes, aunque no se aun donde meterlo
+ * TODO lo de que el login se guarde en el localStorage
+ * TODO que el login furule
+ * TODO dar buen formato a la informacion que muestra el programa y a los comentarios
  */
 ////////////////////////////////////////////////////////////////////////////////////
-////// MÉTODOS GENERALES //////////////////////////////////////////////////////////
+////// FUNCIONES PARA LA INTERFAZ //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 /**
- * Comprueba si un elemento está vacío
+ * Comprueba que si un elemento no contiene ningun texto y devuelve true si esta vacío
  * @param elementToCheck
  * @returns {boolean}
  */
+
 const itsEmpty = elementToCheck => {
     return elementToCheck === "";
 
 }
 
-/**
- * Cambia el background-color según:
- *  -true: rojo
- *  -false: blanco
- * @param element
- * @param empty
- */
-const backgroundColor = (element, empty) => {
-    /*
-    NOTA PARA EL JAVIER DEL FUTURO -> en este caso, el element hay que seleccionarlo como con JQuery
-    porque en su origen es un objeto JQuery, y como que no es lo mismo que un objeto normal.
-     */
-    empty ? $(element).css("background-color", "red") :
-        $(element).css("background-color", "white")
-
-}
-
-/**
- * Comprueba que los elementos están vacíos y los pone de color rojo si lo están
- * @param inputsToHighlight
- */
-const highlightEmptyFields = inputsToHighlight => {
-    //"i" es el contador
-    let boolean = true
-    inputsToHighlight.each( (i) => {
-        if (itsEmpty(inputsToHighlight[i].value)) {
-            backgroundColor(inputsToHighlight[i], true)
-            boolean = false;
-        } else {
-            backgroundColor(inputsToHighlight[i], false)
-        }
-
-    })
-    return boolean;
-
-}
-
-
 
 //////////////////////////////////////////////////////////////////////////
-//// MÉTODOS DEL CLIENTE ////////////////////////////////////////////////
+//// FUNCIONES RELATIVAS A CLIENTES ////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
+
 /**
- * Devuelve un objeto con información del nuevo cliente
+ * Recibe array con información del cliente y lo convierte en un objeto
  * @param clientInfo
  * @returns {{name: *, weight: *, email: *, age: *, height: *}}
  */
@@ -81,7 +46,7 @@ const clientInitialize = (clientInfo) => {
 }
 
 /**
- * Comprueba en plan perrunero que todos los datos del cliente están en regla
+ * Comprueba información cliente
  * @param clientInfo
  * @returns {boolean}
  */
@@ -98,13 +63,16 @@ const validateClientInfo = (clientInfo) => {
 }
 
 
-
 ///////////////////////////////////////////////////////////////////////
 ////// MÉTODOS DE LOS ENTRENAMIENTOS /////////////////////////////////
 /////////////////////////////////////////////////////////////////////
 
+/**
+ * Recibe array con informacion de entrenamiento y la convierte en un objeto
+ * @param trainingInfo
+ * @returns {{duration: *, difficulty, distance: *, rythm: *}}
+ */
 const trainingInitialize = (trainingInfo) => {
-
     let duration = trainingInfo[0]
     let distance = trainingInfo[1]
     let rythm = obtainRythm(duration, distance)
@@ -118,9 +86,21 @@ const trainingInitialize = (trainingInfo) => {
 
 }
 
+/**
+ * Calcula el ritmo de un entrenamiento basandose en su duración y la distancia recorrida
+ * @param duration
+ * @param distance
+ * @returns {number}
+ */
 const obtainRythm = (duration, distance) => {
     return distance / duration * 10
 }
+
+/**
+ * Calcula el ritmo de un entrenamiento
+ * @param rythm
+ * @returns {string}
+ */
 const obtainTrainingDifficulty = (rythm) => {
     let difficulty;
     if (rythm >= 4) {
@@ -134,115 +114,121 @@ const obtainTrainingDifficulty = (rythm) => {
 
 }
 
+/**
+ * Actualiza la lista de entrenamientos con los que tenga el cliente seleccionado
+ * @param trainings
+ * @param listaEntrenamientos
+ */
+const mostrarEntrenamientos = (trainings, listaEntrenamientos) => {
+    let i = 0;
+    $(listaEntrenamientos).html("") //se vacía la lista de entrenamientos
 
+    trainings.forEach( () => {
 
+        /*
+        Se añade un <li> con la informacion por cada entrenamiento del array trainings que se le pase.
+         */
+        $(listaEntrenamientos)
+            .append($("<li>Entrenamiento "+(i+1)+
+                " Duracion: "+trainings[i].duration+
+                " | Distancia: "+trainings[i].distance+
+                " | Ritmo: "+trainings[i].rythm+
+                " | Nivel: "+trainings[i].difficulty+
+                " "+
+                "</li>")
+                .append($("<button>", {
+                    "text": "ELIMINAR",
+                    "id": i.toString()
 
+                }).click( e => {
+                    trainings.splice($(e.target).attr("id"), 1)
+                    $(e.target).closest("li").hide()
 
+                })))
+        i++;
 
+    })
+
+}
 
 
 /**
- * Comienzo del programa con JQuery
+ * Hace desaparecer la animación de loading cuando la página carga
  */
+$(window).on('load', () => {
+    $(".loader-page").css({visibility:"hidden",opacity:"0"})
+    $(".warning").hide()
+})
+
 $(document).ready( () => {
-    /*
-    clientsArray -> array donde se guardan todos los clientes que se van creando
-    selectedClient -> guarda un número equivalente al id del cliente seleccionado
-
-    En JQuery y javascript moderno como que se supone que queda mejor declarar así las variables
-    (o eso he leido por ahí)
-     */
+    $("main").hide()
        let clientsArray = [],
-           selectedClient
+           selectedClient //posición en clientsArray de el cliente seleccionado
 
-    /*
-    Evento que comienza al hacer click en el botón de enviar, en el formulario para
-    agregar clientes.
-     */
+   $("#iniciar-sesion").click( e => {
+        let inputs = $(".inicio-sesion input")
+        $("#iniciar-sesion").closest(".wrapper").hide()
+        $("#form-entrenamiento").hide()
+        $("<main>").show()
+
+    })
+
     $("#submit-cliente").click( () => {
-        let i = 0; //sirve de ID auto-incrementable para dar un identificador a los clientes
-        let clientInputs = $("#form-cliente input") //elementos HTML input del formulario de cliente
+
+        let i = 0;
+        let clientInputs = $("#form-cliente input")
         let clientInputsValue = clientInputs.map(element => {
-            return clientInputs[element].value //arra que contiene la información de todos los inputs del formulario persona
+            return clientInputs[element].value
         })
 
-        highlightEmptyFields(clientInputs) //se comprueba si hay campos vacíos
+        $("#form-entrenamiento").show() //se muestra el formulario para crear entrenamientos
 
+        $("#lista-clientes").html("") //vacía la lista de clientes para evitar redundancia
 
-        //clientsArray.push(clientInitialize(clientInputsValue)) //se añade el nuevo cliente al array clientes
-
-        $("#lista-clientes").html("")//se vacía la lista para que los elementos no se repitan al mostrarse
-
-        /*
-        En esta variable se guarda una inicialización de un objeto cliente.
-        Sin embargo, si no pasa la validación de su información, no se añade al array clientes,
-        y por lo tanto, no aparecerá en la lista de clientes.
-         */
         let provisionalClient = clientInitialize(clientInputsValue)
         if (validateClientInfo(provisionalClient) === true) {
             clientsArray.push(provisionalClient)
 
         }
 
-        /*
-        Por cada elemento del array clientes se añade a la lista el nombre del usuario y un botón
-        para seleccionarlo, cada uno tiene un ID único para poder seleccionarlos
-
-        NOTA PARA EL JAVIER DEL FUTURO -> Con esa movida to loca que se ve en el segundo append,
-        puedes añadir elementos así a palo seco con el JQuery para
-        ahorrar toda la parafernalia del createElement y to eso.
-         */
         clientsArray.forEach( element => {
-            $("#lista-clientes").append($("<li>"+element.name+"</li>").append($("<a>", {
-                "href": "#",
-                "text": " [SELECCIONAR]",
+            $("#lista-clientes").append($("<li>Nombre: "+element.name+
+                " E-mail"+element.email+
+                " Altura:"+element.height+
+                " Peso: "+element.weight+
+                " Edad"+element.age+" </li>").append($("<button>", {
+                "text": " SELECCIONAR",
+                "value": "paco",
                 "id": i.toString()
             }).click( e => {
+                let listaEntrenamientos = $("#lista-entrenamientos")
                 selectedClient = $(e.target).attr("id")
+
+                $("#lista-clientes li").each((index, elemento) => $(elemento).css("border", "none"))
+
+                $(e.target).closest("li").css("border", "2px solid dodgerblue")
+
+                element.trainings.length !== 0 ?
+                    mostrarEntrenamientos(element.trainings, $(listaEntrenamientos)) : $(listaEntrenamientos).html("")
+
+
             })))
             i++;
         })
-
     })
 
     $("#submit-entrenamiento").click( () => {
-        let trainingInputs = $("#form-entrenamiento input")
-        let trainingInputValues = trainingInputs.map(element => {
+        let trainingInputs = $("#form-entrenamiento input") //los inputs del form entrenamiento
+        let trainingInputValues = trainingInputs.map(element => { //los valores de los inputs de los entrenamientos
             return trainingInputs[element].value
         })
 
-        highlightEmptyFields(trainingInputs)
+        let provisionalTraining = trainingInitialize(trainingInputValues) //inicialización del entrenamiento
+        clientsArray[selectedClient].trainings.push(provisionalTraining); //subida del entrenamiento al array de entrenamientos del cliente sleeccionado
 
-        let provisionalTraining = trainingInitialize(trainingInputValues)
+        mostrarEntrenamientos(clientsArray[selectedClient].trainings, $("#lista-entrenamientos") )
 
-        clientsArray[selectedClient].trainings.push(provisionalTraining);
 
     })
-
-    $("#ver-entrenamientos").click( () => {
-        let i = 0;
-        let trainings = clientsArray[selectedClient].trainings
-
-        $("#lista-entrenamientos").html("")
-
-        trainings.forEach( element => {
-
-            $("#lista-entrenamientos")
-                .append($("<p>Entrenamiento "+(i+1)+"</p>")
-                .append($("<a>", {
-                    "href": "#",
-                    "text": "[ELIMINAR]",
-                    "id": i.toString()
-
-                }).click( e => {
-                    trainings.splice($(e.target).attr("id"), 1)
-                    $(e.target).closest("p").hide()
-                })))
-            i++;
-
-        })
-    })
-
-
 
 })
