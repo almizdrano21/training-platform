@@ -14,10 +14,12 @@
 <div class="loader-page"></div>
 <header>Gestión de entrenamientos - JS y Jquery - Javier Rodríguez Bueno<button id="modonoche">MODO NOCHE</button></header>
 <div class="wrapper">
+
     <div class="inicio-sesion">
+        <h2>Bienvenido</h2>
        <!-- <img src="https://uybor.uz/borless/uybor/img/user-images/user_no_photo_600x600.png" alt="">-->
-        <input type="text" placeholder="nombre de usuario...">
-        <input type="password" placeholder="contraseña...">
+        <input type="text" placeholder="nombre de usuario..." id="username">
+        <input type="password" placeholder="contraseña..." id="password">
         <button id="iniciar-sesion">INICIAR SESIÓN</button>
     </div>
 </div>
@@ -39,7 +41,6 @@
     <button id="ver-clientes">VER CLIENTES</button>
 </div>
 <div class="lista-clientes">
-
     <h2>Lista de clientes <button class="cerrar">CERRAR</button></h2>
 <ul id="lista-clientes">
 </ul>
@@ -47,7 +48,7 @@
 
 </div>
 <div class="lista-entrenamientos" id="form-entrenamiento">
-    <h2>Añadir entrenamientos</h2>
+    <h2>Añadir entrenamientos a <a href="#" id="nombre-cliente">(seleccione un cliente)</a></h2>
     <label for="duracion-input">Duracion </label>
         <input type="number" placeholder="duración (en minutos)" id="duracion-input">
     <label for="distancia-input">Distancia </label>
