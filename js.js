@@ -4,26 +4,30 @@
  * @description Este programa hecho con JS y JQuery nos permite gestionar la información de unos clientes
  * así como guardar y visualizar información sobre sus entrenamientos.
  *
- * TODO el ritmo y el nivel del entrenamiento se tienen que calcular mejor
  * TODO el slideshow de imagenes, aunque no se aun donde meterlo
  * TODO lo de que el login se guarde en el localStorage
  * TODO que el login furule
- * TODO dar buen formato a la informacion que muestra el programa y a los comentarios
  */
 ////////////////////////////////////////////////////////////////////////////////////
 ////// FUNCIONES PARA LA INTERFAZ //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 /**
  * Comprueba que si un elemento no contiene ningun texto y devuelve true si esta vacío
- * @param elementToCheck
+ * @param elemento
  * @returns {boolean}
  */
 
-const itsEmpty = elementToCheck => {
-    return elementToCheck === "";
-
+const isEmpty = elemento => {
+    return elemento === ""
 }
-
+/**
+ * Hace aparecer y desaparecer un POPUP de "Todos los campos son obligatorios"
+ * @param warning
+ */
+const showWarning = (warning = $(".warning")) => {
+    $(warning).fadeIn()
+    $(warning).delay(2000).fadeOut()
+}
 
 //////////////////////////////////////////////////////////////////////////
 //// FUNCIONES RELATIVAS A CLIENTES ////////////////////////////////////////////////
@@ -46,20 +50,18 @@ const clientInitialize = (clientInfo) => {
 }
 
 /**
- * Comprueba información cliente
- * @param clientInfo
+ * Comprueba si la información recibida de un cliente es válida
+ * @param client
  * @returns {boolean}
  */
-const validateClientInfo = (clientInfo) => {
+const validateClientInfo = (client) => {
     const regexNumero = /^[0-9]+$/
     const regexEmail = /^[^@]+@[^@]+\.[^@]+$/
-    return regexNumero.test(clientInfo.height.toString()) &&
-        regexNumero.test(clientInfo.weight.toString()) &&
-        regexNumero.test(clientInfo.age.toString()) &&
-        !itsEmpty(clientInfo.name) &&
-        !itsEmpty(clientInfo.email) && regexEmail.test(clientInfo.email);
-
-
+    return regexNumero.test(client.height.toString()) &&
+        regexNumero.test(client.weight.toString()) &&
+        regexNumero.test(client.age.toString()) &&
+        !isEmpty(client.name) &&
+        !isEmpty(client.email) && regexEmail.test(client.email)
 }
 
 
@@ -83,7 +85,6 @@ const trainingInitialize = (trainingInfo) => {
         rythm,
         difficulty
     }
-
 }
 
 /**
@@ -104,43 +105,42 @@ const obtainRythm = (duration, distance) => {
 const obtainTrainingDifficulty = (rythm) => {
     let difficulty;
     if (rythm >= 4) {
-        difficulty = "Ritmo Alto";
+        difficulty = "Nivel Alto"
     } else if (rythm > 3 && rythm < 4) {
-        difficulty = "Ritmo medio";
+        difficulty = "Nivel medio"
     } else {
-        difficulty = "Ritmo bajo";
+        difficulty = "Nivel bajo"
     }
     return difficulty
-
 }
 
 /**
  * Actualiza la lista de entrenamientos con los que tenga el cliente seleccionado
  * @param trainings
- * @param listaEntrenamientos
+ * @param trainingList
  */
-const mostrarEntrenamientos = (trainings, listaEntrenamientos) => {
+const showTrainings = (trainings, trainingList) => {
     let i = 0;
-    $(listaEntrenamientos).html("") //se vacía la lista de entrenamientos
+    $(trainingList).html("") //se vacía la lista de entrenamientos
 
-    trainings.forEach( () => {
+    trainings.forEach(() => {
 
         /*
         Se añade un <li> con la informacion por cada entrenamiento del array trainings que se le pase.
          */
-        $(listaEntrenamientos)
-            .append($("<li>Entrenamiento "+(i+1)+
-                " Duracion: "+trainings[i].duration+
-                " | Distancia: "+trainings[i].distance+
-                " | Ritmo: "+trainings[i].rythm+
-                " | Nivel: "+trainings[i].difficulty+
-                " "+
+        $(trainingList)
+            .append($("<li><strong>Entrenamiento </strong>" + (i + 1) +
+                " <strong>Duracion: </strong>" + trainings[i].duration +
+                " | <strong>Distancia: </strong>" + trainings[i].distance +
+                " | <strong>Ritmo: </strong>" + trainings[i].rythm +
+                " | <strong>Nivel: </strong>" + trainings[i].difficulty +
+                " " +
                 "</li>")
                 .append($("<button>", {
                     "text": "ELIMINAR",
                     "id": i.toString()
 
-                }).click( e => {
+                }).click(e => {
                     trainings.splice($(e.target).attr("id"), 1)
                     $(e.target).closest("li").hide()
 
@@ -150,30 +150,41 @@ const mostrarEntrenamientos = (trainings, listaEntrenamientos) => {
     })
 
 }
+const showClients = () => {
 
+}
 
-/**
+/*
  * Hace desaparecer la animación de loading cuando la página carga
  */
 $(window).on('load', () => {
-    $(".loader-page").css({visibility:"hidden",opacity:"0"})
+    $(".loader-page").css({visibility: "hidden", opacity: "0"})
     $(".warning").hide()
+    $(".lista-clientes").hide()
 })
 
-$(document).ready( () => {
-    $("main").hide()
-       let clientsArray = [],
-           selectedClient //posición en clientsArray de el cliente seleccionado
+$(document).ready(() => {
 
-   $("#iniciar-sesion").click( e => {
+    let xd = 1;
+    $("#modonoche").click(e => {
+        let everything = $("*")
+        xd % 2 !== 0 ? $(everything).addClass("noche") : $(everything).removeClass("noche")
+        xd++
+    })
+
+    $("main").hide()
+    let clientsArray = [],
+        selectedClient = 0 //posición en clientsArray de el cliente seleccionado
+
+    $("#iniciar-sesion").click(e => {
         let inputs = $(".inicio-sesion input")
         $("#iniciar-sesion").closest(".wrapper").hide()
         $("#form-entrenamiento").hide()
-        $("<main>").show()
+        $("main").show()
 
     })
 
-    $("#submit-cliente").click( () => {
+    $("#submit-cliente").click(() => {
 
         let i = 0;
         let clientInputs = $("#form-cliente input")
@@ -181,26 +192,26 @@ $(document).ready( () => {
             return clientInputs[element].value
         })
 
-        $("#form-entrenamiento").show() //se muestra el formulario para crear entrenamientos
 
         $("#lista-clientes").html("") //vacía la lista de clientes para evitar redundancia
 
         let provisionalClient = clientInitialize(clientInputsValue)
-        if (validateClientInfo(provisionalClient) === true) {
-            clientsArray.push(provisionalClient)
+        validateClientInfo(provisionalClient) === true ?
+            clientsArray.push(provisionalClient) &&
+            $("#form-entrenamiento").show() :
+            showWarning()
 
-        }
-
-        clientsArray.forEach( element => {
-            $("#lista-clientes").append($("<li>Nombre: "+element.name+
-                " E-mail"+element.email+
-                " Altura:"+element.height+
-                " Peso: "+element.weight+
-                " Edad"+element.age+" </li>").append($("<button>", {
+        showClients()
+        clientsArray.forEach(element => {
+            $("#lista-clientes").append($("<li><strong>Nombre: </strong>" + element.name +
+                " <strong>E-mail: </strong>" + element.email +
+                " <strong>Altura: </strong>" + element.height +
+                " <strong>Peso: </strong>" + element.weight +
+                " <strong>Edad: </strong>" + element.age + " </li>").append($("<button>", {
                 "text": " SELECCIONAR",
                 "value": "paco",
                 "id": i.toString()
-            }).click( e => {
+            }).click(e => {
                 let listaEntrenamientos = $("#lista-entrenamientos")
                 selectedClient = $(e.target).attr("id")
 
@@ -209,26 +220,49 @@ $(document).ready( () => {
                 $(e.target).closest("li").css("border", "2px solid dodgerblue")
 
                 element.trainings.length !== 0 ?
-                    mostrarEntrenamientos(element.trainings, $(listaEntrenamientos)) : $(listaEntrenamientos).html("")
-
-
+                    showTrainings(element.trainings, $(listaEntrenamientos)) : $(listaEntrenamientos).html("")
             })))
-            i++;
+            i++
         })
     })
 
-    $("#submit-entrenamiento").click( () => {
+    $("#submit-entrenamiento").click(() => {
         let trainingInputs = $("#form-entrenamiento input") //los inputs del form entrenamiento
         let trainingInputValues = trainingInputs.map(element => { //los valores de los inputs de los entrenamientos
             return trainingInputs[element].value
         })
 
         let provisionalTraining = trainingInitialize(trainingInputValues) //inicialización del entrenamiento
-        clientsArray[selectedClient].trainings.push(provisionalTraining); //subida del entrenamiento al array de entrenamientos del cliente sleeccionado
+        clientsArray[selectedClient].trainings.push(provisionalTraining) //subida del entrenamiento al array de entrenamientos del cliente sleeccionado
 
-        mostrarEntrenamientos(clientsArray[selectedClient].trainings, $("#lista-entrenamientos") )
+        if ($("#duracion-input").val() !== "" && $("#distancia-input").val() !== "") {
+            showTrainings(clientsArray[selectedClient].trainings, $("#lista-entrenamientos"))
+        } else {
+            showWarning()
+        }
 
 
+    })
+
+    /**
+     * Filtra los clientes segun lo que se escriba en el input de buscar
+     */
+    $("#barra-buscar-clientes").keyup( e => {
+        let textToSearch = $(e.currentTarget)
+        textToSearch = textToSearch.val()
+
+        $("#lista-clientes li").each((index, elemento) => {
+            console.log(clientsArray[index])
+           if (clientsArray[index].name.indexOf(textToSearch) >= 0 ) {
+                $(elemento).show()
+            } else {
+                $(elemento).hide()
+            }
+        })
+    })
+
+    $("#ver-clientes").click(() => {
+        $(".lista-clientes").show()
     })
 
 })
