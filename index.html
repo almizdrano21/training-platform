@@ -1,70 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>xD</title>
+    <title>Gestor de Entrenamientos</title>
     <link rel="stylesheet" href="style/loading.css">
     <link rel="stylesheet" href="style/css.css">
-
-    <style>
-
-    </style>
 </head>
+
 <body>
+
+<!-- ANIMACIÓN DE LOADING -->
 <div class="loader-page"></div>
-<header>Gestión de entrenamientos - JS y Jquery - Javier Rodríguez Bueno<button id="modonoche">MODO NOCHE</button></header>
+<!-- HEADER -->
+<header>
+    Gestión de entrenamientos - JS y Jquery - Javier Rodríguez Bueno
+    <button id="modonoche">MODO NOCHE</button>
+</header>
+
+<!-- CONTENEDOR INICIAL -->
 <div class="wrapper">
 
+    <!-- CONTENEDOR INICIO DE SESIÓN -->
     <div class="inicio-sesion">
+
+        <!-- Título -->
         <h2>Bienvenido</h2>
-       <!-- <img src="https://uybor.uz/borless/uybor/img/user-images/user_no_photo_600x600.png" alt="">-->
+
+        <!-- INPUT USUARIO -->
         <input type="text" placeholder="nombre de usuario..." id="username">
+
+        <!-- INPUT CONTRASEÑA -->
         <input type="password" placeholder="contraseña..." id="password">
+
+        <!-- BOTON INICIO DE SESIÓN -->
         <button id="iniciar-sesion">INICIAR SESIÓN</button>
     </div>
 </div>
 
+<!-- CONTENIDO DEL PROGRAMA -->
 <main>
+
+<!-- FORMULARIO CLIENTE -->
 <div class="form-persona" id="form-cliente">
+
+    <!-- TITULO -->
     <h2>Añadir clientes</h2><br>
+
     <label for="nombre-input">Nombre </label>
     <input type="text" placeholder="Jose Luis Martinez" id="nombre-input">
+
     <label for="email-input">Email </label>
     <input type="email" placeholder="paco@paco.com" id="email-input">
+
     <label for="altura-input">Altura</label>
     <input type="number" placeholder="altura (en centímetros)" id="altura-input">
+
     <label for="peso-input">Peso </label>
     <input type="number" placeholder="peso (en kilogramos)" id="peso-input">
+
     <label for="edad-input">Edad </label>
     <input type="number" placeholder="edad" id="edad-input">
+
+    <!-- BOTON GUARDAR -->
     <button id="submit-cliente">GUARDAR</button><br>
+
+    <!-- BOTON VER LISTA DE CLIENTES -->
     <button id="ver-clientes">VER CLIENTES</button>
 </div>
+
+<!-- VENTANA LISTA DE CLIENTES -->
 <div class="lista-clientes">
+
+    <!-- TITULO Y BOTON DE PARA CERRAR -->
     <h2>Lista de clientes <button class="cerrar">CERRAR</button></h2>
-<ul id="lista-clientes">
-</ul>
+
+    <!-- LISTA -->
+    <ul id="lista-clientes"></ul>
+
+    <!-- BARRA DE BÚSQUEDA -->
     <input type="text" placeholder="Buscar por nombre..." id="barra-buscar-clientes">
 
 </div>
+
+<!-- FORMULARIO ENTRENAMIENTOS -->
 <div class="lista-entrenamientos" id="form-entrenamiento">
+
+    <!-- TITULO SECCIÓN -->
     <h2>Añadir entrenamientos a <a href="#" id="nombre-cliente">(seleccione un cliente)</a></h2>
+
+    <!-- INPUT DURACIÓN -->
     <label for="duracion-input">Duracion </label>
         <input type="number" placeholder="duración (en minutos)" id="duracion-input">
+
+    <!-- INPUT DISTANCIA -->
     <label for="distancia-input">Distancia </label>
         <input type="number" placeholder="distancia (en kilometros)" id="distancia-input">
-            <button id="submit-entrenamiento">Enviar</button>
+
+    <!-- BOTON AGREGAR ENTRENAMIENTO -->
+    <button id="submit-entrenamiento">Añadir</button>
+
 </div>
-    <div class="lista-entrenamientos">
-        <h2>Lista de entrenamientos</h2>
+
+<!-- LISTA ENTRENAMIENTOS -->
+<div class="lista-entrenamientos">
+    <!-- TÍTULO -->
+    <h2>Lista de entrenamientos</h2>
+
+    <!-- LISTA -->
     <ul id="lista-entrenamientos">
     </ul>
-    </div>
+
+</div>
+
 </main>
+
+<!-- RECUADRO DE ERROR -->
 <div class="warning">
     <p>¡Todos los campos son obligatorios!</p>
 </div>
 
+<!-- JAVASCRIPT IMPORT -->
 <script src="jquery-3.6.0.js"></script>
 <script src="js.js"></script>
 
