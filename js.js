@@ -4,11 +4,10 @@
  * @description Este programa hecho con JS y JQuery nos permite gestionar la información de unos clientes
  * así como guardar y visualizar información sobre sus entrenamientos.
  *
- * TODO barra de búsqueda entrenamientos
- * TODO mostrar récords
  * TODO el slideshow de imagenes, aunque no se aun donde meterlo
  * TODO lo de que el login se guarde en el localStorage
  * TODO que el login furule
+ * TODO el css podría ser bastante mejor
  */
 ////////////////////////////////////////////////////////////////////////////////////
 ////// FUNCIONES PARA LA INTERFAZ //////////////////////////////////////////////////////////
@@ -48,9 +47,14 @@ const showMainMenu = () => {
         $("#iniciar-sesion").closest(".wrapper").hide()
         $("#form-entrenamiento").hide()
         $("main").show()
-        localStorage.setItem("a", "a")
     } else showWarning("¡Todos los campos son obligatorios!")
 
+}
+
+const showRecords = (message, popup = $(".records-popup")) => {
+    $(popup).text(message)
+    $(".records-popup").fadeIn()
+    $(".records-popup").delay(3000).fadeOut()
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -194,6 +198,8 @@ $(window).on('load', () => {
     $(".warning").hide()
     $(".lista-clientes").hide()
     $("main").hide()
+    $(".records-popup").hide()
+
 
 })
 
@@ -207,33 +213,37 @@ $(document).ready(() => {
     /**
      * Si el número del modo oscuro es par se activa, si es impar, se desactiva
      */
-    $("#modonoche").click( () => nightMode(nightModeNumber++))
+    $("#modonoche").click(() => nightMode(nightModeNumber++))
 
     /**
      * Muestra la lista de clientes
      */
-    $("#ver-clientes").click( () => $(clientList).show() )
-    $("#nombre-cliente").click( () => $(clientList).show() )
+    $("#ver-clientes").click(() => $(clientList).show())
+    $("#nombre-cliente").click(() => $(clientList).show())
     /**
      * Esconde la lista de clientes
      */
-    $(".cerrar").click( () => $(clientList).hide() )
+    $(".cerrar").click(() => $(clientList).hide())
 
     /**
      * Guarda la sesión, y muestra la interfaz del programa
      */
-    $("#iniciar-sesion").click( () => showMainMenu() )
+    $("#iniciar-sesion").click(() => {
+        showMainMenu()
 
+    })
 
 
     /**
      * Se encarga de crear los nuevos clientes y añadirlos a la lista de clientes.
      */
-    $("#submit-cliente").click( () => {
+    $("#submit-cliente").click(() => {
 
         let i = 0; // contador para dar ID a los clientes en la lista
         let clientInputs = $("#form-cliente input"), //inputs del formulario de cliente
-            clientInputsValue = clientInputs.map(element => { return clientInputs[element].value } ) //nuevo array con todos los valores del cliente
+            clientInputsValue = clientInputs.map(element => {
+                return clientInputs[element].value
+            }) //nuevo array con todos los valores del cliente
 
         /**
          * 1. Vacía la lista de clientes para evitar redundancia de datos
@@ -310,7 +320,7 @@ $(document).ready(() => {
     /**
      * Filtra los clientes según lo que se escriba en una barra de búsqueda
      */
-    $("#barra-buscar-clientes").keyup( e => {
+    $("#barra-buscar-clientes").keyup(e => {
         let textToSearch = $(e.currentTarget)
         textToSearch = textToSearch.val()
 
@@ -318,7 +328,7 @@ $(document).ready(() => {
          * Si el nombre de algún cliente contiene el texto inrtoducido, se muestra, si no, desaparece
          */
         $("#lista-clientes li").each((index, elemento) => {
-            if (clientsArray[index].name.indexOf(textToSearch) >= 0 ) {
+            if (clientsArray[index].name.indexOf(textToSearch) >= 0) {
                 $(elemento).show()
             } else {
                 $(elemento).hide()
@@ -350,10 +360,32 @@ $(document).ready(() => {
 
     })
 
+    $("#comprobar-record").click(() => {
+        let trainings = clientsArray[selectedClient].trainings
+
+        let durations = trainings.map(element => { return element.duration })
+        let distances = trainings.map(element => { return element.distance })
+        let rythms = trainings.map(element => { return element.rythm })
+
+        let higestDuration = Math.max(...durations)
+        let longestDistance = Math.max(...distances)
+        let bestRythm = Math.max(...rythms)
+
+        switch ($("#select-record").val()) {
+            case "1":
+                showRecords("Record de distancia: "+higestDuration)
+                break
+            case "2":
+                showRecords("Entrenamiento mas largo: "+longestDistance)
+                break
+            case "3":
+                showRecords("El mejor ritmo fue: "+bestRythm)
+                break;
+            default:
+                alert("no funciona esto")
+                break;
+        }
 
 
-
-
-
-
+    })
 })

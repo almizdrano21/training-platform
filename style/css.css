@@ -10,9 +10,11 @@ body {
     overflow-x: hidden;
 
 }
+
 button:hover {
     cursor: pointer;
 }
+
 header {
     width: 100%;
     padding: 1em;
@@ -253,4 +255,39 @@ div.noche {
 #modonoche:hover {
     background-color: white;
     color: black;
+}
+select {
+    border: 3px solid dodgerblue;
+    padding: 0.5em;
+    border-radius: 50px;
+    background-color: white;
+}
+.records-popup {
+    border: 3px solid dodgerblue;
+    padding: 1em;
+    position: absolute;
+    z-index: 250;
+    top: 45%;
+    bottom: 45%;
+    right: 40%;
+    left: 40%;
+    width: 20%;
+    background-color: white;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 800px) {
+    div, ul {
+        flex-direction: column;
+    }
+    div {
+        box-sizing: border-box;
+        padding: 0.5em;
+    }
+    div, input, li, ul {
+        width: 100%;
+    }
 }

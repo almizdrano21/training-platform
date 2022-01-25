@@ -99,6 +99,13 @@
     <!-- BOTON AGREGAR ENTRENAMIENTO -->
     <button id="submit-entrenamiento">Añadir</button>
 
+    <select name="records" id="select-record">
+        <option value="1">Mayor distancia</option>
+        <option value="2">Más largo</option>
+        <option value="3">Mejor ritmo</option>
+    </select>
+    <button id="comprobar-record">Comprobar récord</button>
+
 </div>
 
 <!-- LISTA ENTRENAMIENTOS -->
@@ -109,7 +116,6 @@
     <!-- LISTA -->
     <ul id="lista-entrenamientos">
     </ul>
-
 </div>
 
 </main>
@@ -119,6 +125,10 @@
     <p>¡Todos los campos son obligatorios!</p>
 </div>
 
+<!-- RECUADRO RÉCORDS -->
+<div class="records-popup">
+    <p></p>
+</div>
 <!-- JAVASCRIPT IMPORT -->
 <script src="jquery-3.6.0.js"></script>
 <script src="js.js"></script>
