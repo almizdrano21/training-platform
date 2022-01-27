@@ -49,5 +49,10 @@ realizado con JS y JQUERY, CSS3 y HTML5
 
     - Tanto si introducimos mal los campos de un formulario como si dejamos alguno vacío, no funcionará y aparecerá un mensaje de error.
 
+    - Si se hace clic en el botón de GALERIA se muestra el SLIDESHOW de imagenes donde podemos cambiar entre las imagenes haciendo clic en las flechitas.
+    para cerrarlo, se hay que hacer clic en el botón de cerrar
+
+    -
+
 
 

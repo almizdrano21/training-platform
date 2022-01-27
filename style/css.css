@@ -1,5 +1,5 @@
 /*
-        BODY
+       BODY
          */
 * {
     box-sizing: border-box;
@@ -7,7 +7,7 @@
     font-family: sans-serif;
 }
 body {
-    background-image: url("../img/karsten-winegeart-0Wra5YYVQJE-unsplash.jpg");
+    background-image: url("../img/img4.jpg");
     background-size: cover;
     display: flex;
     flex-direction: column;
@@ -292,4 +292,116 @@ li.noche {
 }
 .bienvenida button {
     background-color: red;
+}
+
+/*****************/
+.galeria {
+    position: absolute;
+    top: 5%;
+    bottom: 5%;
+    left: 5%;
+    right: 5%;
+    background-color: white;
+    z-index: 200;
+    margin: auto;
+    border: 1px solid black;
+    outline: 4px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.galeria img {
+    width: 300px;
+    height: 500px;
+}
+
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -22px;
+    padding: 16px;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    color: black;
+    border: 1px solid black;
+}
+
+
+.next {
+    right: 0;
+
+}
+.prev {
+    left: 0;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+
+.text {
+    color: #f2f2f2;
+    font-size: 15px;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+
+.numbertext {
+    color: #f2f2f2;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+}
+
+
+.dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+    background-color: #717171;
+}
+
+
+.fade {
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 1.5s;
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+}
+
+@keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+}
+
+#cerrar-galeria {
+    position: absolute;
+    background-color: red;
+    top: 1%;
+    right: 1%;
 }

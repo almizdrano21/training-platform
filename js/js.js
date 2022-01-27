@@ -4,7 +4,6 @@
  * @description Este programa hecho con JS y JQuery nos permite gestionar la información de unos clientes
  * así como guardar y visualizar información sobre sus entrenamientos.
  *
- * TODO el slideshow de imagenes, aunque no se aun donde meterlo
  */
 ////////////////////////////////////////////////////////////////////////////////////
 ////// FUNCIONES PARA LA INTERFAZ //////////////////////////////////////////////////////////
@@ -220,6 +219,7 @@ $(window).on('load', () => {
     $(".records-popup").hide()
     $(".bocadillo").hide()
 
+
     greetingAnimation()
 
 })
@@ -256,9 +256,9 @@ $(document).ready(() => {
     /**
      * Muestra el bocadillo con el mensaje
      */
-    $("h1").mouseover( (bocadillo = $(".bocadillo") ) => {
-        $(bocadillo).fadeIn()
-        $(bocadillo).delay(2000).fadeOut()
+    $("h1").mouseover( ()  => {
+        $(".bocadillo").fadeIn()
+        $(".bocadillo").delay(2000).fadeOut()
     })
 
     /**
