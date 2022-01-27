@@ -18,14 +18,13 @@
     width: 60px;
     height: 60px;
     box-sizing: border-box;
-    border-radius: 35%;
-    outline: 2px solid rgb(50, 150, 176);
-    animation: rotarload 1s ease-out infinite;
+    outline: 2px solid black;
+    animation: rotarload 1s infinite;
     transform: rotate(0deg);
-    box-shadow: white 0 0 0 4px, rgb(50, 150, 176) 0 0 0 6px,white 0 0 0 8px, rgb(50, 150, 176) 0 0 0 10px;
+    box-shadow: white 0 0 0 4px, black 0 0 0 6px,white 0 0 0 8px, black 0 0 0 10px;
 }
 
 @keyframes rotarload {
     0%   {transform: rotate(0deg)}
-    100% {transform: rotate(180deg)}
+    100% {transform: rotate(360deg)}
 }

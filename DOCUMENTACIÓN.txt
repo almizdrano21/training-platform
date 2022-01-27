@@ -1,0 +1,53 @@
+APP WEB Gestión de Entrenamientos
+autor Javier Rodríguez Bueno
+curso 2º Desarrollo de Aplicaciones Web
+realizado con JS y JQUERY, CSS3 y HTML5
+
+1. Estructura del programa:
+
+    - Esta vez, aun que si he trabajado con POO no he utilizado clases debido a que la unica finalidad de los objetos
+    que se usan en este programa (clientes y sus entrenamientos), simplemente sirven para guardar información y no tienen
+    ninguna funcionalidad a parte. Los objetos cliente y entrenamiento si se validan y se crean, ya que JS me permite crear
+    objetos sin necesidad de clase e incluso añadirles atributos sobre la marcha con los métodos de object destructuring y structuring.
+
+    - Todas las funciones del programa se han declarado utilizando la metodología de FUNCTION EXPRESSION.
+
+    - En cada momento he tratado de utilizar la forma más actual de escribir código JS utilizando arrow functions y cuando se ha podido
+     condicionales ternarios ( condición ? resultado1 : resultado2 )
+
+     -Al principio se declaran todas las funciones que va a utilizar el programa tanto para trabajar con los objetos como para pequeñas
+     animaciones y cambios a la interfaz.
+     Luego, comienza el programa donde el funcionamiento se basa en los eventos CLICK que se le añaden a los elementos
+
+2. Funcionamiento
+
+    - Se muestra una pequeña animación de un cuadrado que gira mientras la página carga
+
+    - Al comienzo de la aplicación se debe iniciar con un usuario y contraseña que quedará guardado para no tener que iniciar sesión otra vez
+    si se recarga la página (EL FUNCIONAMIENTO DE ESTO VA A CAMBIAR POR COMPLETO EN PRÓXIMAS VERSIONES).
+
+    - Un pequeño cuadrado que se mueve de izquierda a derecha con un mensaje. Se puede cerrar haciendole clic en la X.
+
+    - Si se pasa el ratón por encima de "Javier Rodríguez Bueno", aparece un pequeño cuadrado con un mensaje
+
+    - Una vez se inicia sesión, desaparecerá el formulario y se mostrará la interfaz del programa.
+
+    - En esta interfaz, podemos añadir clientes al sistema utilizando el formulario que se muestra y dando clic en Añadir. Al añadir nuestro primer cliente
+    se mostrará un formulario donde podremos ir añadiéndole los entrenamientos que queramos a ese cliente.
+
+    - Los entrenamientos se pueden eliminar haciendo clic en su respectivo botón ELIMINAR
+
+    - Haciendo clic en el nombre del cliente seleccionado o en el botón VER CLIENTES podremos ver la lista de los clientes y seleccionar
+    otro cliente sobre el que trabajar haciendo clic en SELECCIONAR.
+
+    - En la lista de clientes, podemos buscar clientes por su nombre escribiendo en el pequeño input que hay sobre la lista. Dependiendo de lo
+    que escribamos, los clientes irán apareciendo y desapareciendo de la lista dependiendo de si lo que hemos escrito coincide más o menos con sus nombres.
+
+    - Hay un select en el que, dependiendo de la opción que se elija, si posteriormente le hacemos clic al botón de VER RÉCORD, veremos el récord de
+    el cliente seleccionado en ese tema (ritmo, distancia o entrenamiento más largo) en un pequeño cuadrito que aparecerá en medio de la pantalla y que
+    desaparecerá pasado unos segundos.
+
+    - Tanto si introducimos mal los campos de un formulario como si dejamos alguno vacío, no funcionará y aparecerá un mensaje de error.
+
+
+

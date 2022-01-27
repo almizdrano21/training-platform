@@ -5,9 +5,6 @@
  * así como guardar y visualizar información sobre sus entrenamientos.
  *
  * TODO el slideshow de imagenes, aunque no se aun donde meterlo
- * TODO lo de que el login se guarde en el localStorage
- * TODO que el login furule
- * TODO el css podría ser bastante mejor
  */
 ////////////////////////////////////////////////////////////////////////////////////
 ////// FUNCIONES PARA LA INTERFAZ //////////////////////////////////////////////////////////
@@ -35,6 +32,10 @@ const showWarning = (message) => {
 
 }
 
+/**
+ * Cambia la web entre los modos claro y oscuro
+ * @param nightModeNumber
+ */
 const nightMode = nightModeNumber => {
 
     let everything = $("*")
@@ -42,7 +43,11 @@ const nightMode = nightModeNumber => {
 
 }
 
+/**
+ * Muestra el menú del programa si se rellenan los campos de usuario y contraseña
+ */
 const showMainMenu = () => {
+
     if ( $("#username").val() !== "" && $("#password").val() !== "" ) {
         $("#iniciar-sesion").closest(".wrapper").hide()
         $("#form-entrenamiento").hide()
@@ -51,10 +56,23 @@ const showMainMenu = () => {
 
 }
 
+/**
+ * Muestra el tipo de récord seleccionado
+ * @param message
+ * @param popup
+ */
 const showRecords = (message, popup = $(".records-popup")) => {
     $(popup).text(message)
-    $(".records-popup").fadeIn()
-    $(".records-popup").delay(3000).fadeOut()
+    $(popup).fadeIn()
+    $(popup).delay(3000).fadeOut()
+}
+
+/**
+ * Animacion de slide hacia la derecha de un mensaje al inicio del programa
+ * @param greeting
+ */
+const greetingAnimation = (greeting = $(".bienvenida")) => {
+    greeting.animate({"left": "35%"}, 6000)
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -113,12 +131,13 @@ const trainingInitialize = (trainingInfo) => {
     let distance = trainingInfo[1]
     let rythm = obtainRythm(duration, distance)
     let difficulty = obtainTrainingDifficulty(rythm)
-
+    let date = new Date()
     return {
         duration,
         distance,
         rythm,
-        difficulty
+        difficulty,
+        date
     }
 
 }
@@ -131,7 +150,7 @@ const trainingInitialize = (trainingInfo) => {
  */
 const obtainRythm = (duration, distance) => {
 
-    return Math.round(distance / duration * 10)
+    return Math.round(duration / distance)
 
 }
 
@@ -143,12 +162,12 @@ const obtainRythm = (duration, distance) => {
 const obtainTrainingDifficulty = (rythm) => {
 
     let difficulty;
-    if (rythm >= 4) {
-        difficulty = "Nivel Alto"
+    if (rythm >= 5) {
+        difficulty = "Ritmo bajo"
     } else if (rythm > 3 && rythm < 4) {
-        difficulty = "Nivel medio"
+        difficulty = "Ritmo medio"
     } else {
-        difficulty = "Nivel bajo"
+        difficulty = "Ritmo alto"
     }
 
     return difficulty
@@ -169,11 +188,11 @@ const showTrainings = (trainings, trainingList) => {
         Se añade un <li> con la informacion por cada entrenamiento del array trainings que se le pase.
          */
         $(trainingList).append($("<li><strong>Entrenamiento </strong> " + (i + 1) +
-                " <strong>Duracion: </strong> " + trainings[i].duration +
-                " <strong>Distancia: </strong> " + trainings[i].distance +
-                " <strong>Ritmo: </strong> " + trainings[i].rythm +
-                " <strong>Nivel: </strong> " + trainings[i].difficulty +
-                " " +
+                " <strong>Duracion: </strong> " + trainings[i].duration + " min." +
+                " <strong>Distancia: </strong> " + trainings[i].distance + "km " +
+                " <strong>Ritmo: </strong> " + trainings[i].rythm + " m/s " +
+                " <strong>Nivel: </strong> " + trainings[i].difficulty + " "+
+                " <strong>Fecha: </strong> " + trainings[i].date +
                 "</li>")
                 .append($("<button>", {
 
@@ -189,26 +208,28 @@ const showTrainings = (trainings, trainingList) => {
         i++;
     })
 }
-/*
- * Hace desaparecer la animación de loading cuando la página carga
+/**
+ * Hace desaparecer la animación de loading cuando la página carga y otros elementos
  */
 $(window).on('load', () => {
 
-    $(".loader-page").css({visibility: "hidden", opacity: "0"})
+    $(".loader-page").delay(2000).fadeOut()
     $(".warning").hide()
     $(".lista-clientes").hide()
     $("main").hide()
     $(".records-popup").hide()
+    $(".bocadillo").hide()
 
+    greetingAnimation()
 
 })
 
 $(document).ready(() => {
 
-    let clientsArray = [],
+    let clientsArray = [], //array con los clientes
         selectedClient = 0, //posición en clientsArray de el cliente seleccionado
         nightModeNumber = 1, //contador para el modo noche
-        clientList = $(".lista-clientes")
+        clientList = $(".lista-clientes") // lista de clientes
 
     /**
      * Si el número del modo oscuro es par se activa, si es impar, se desactiva
@@ -230,9 +251,22 @@ $(document).ready(() => {
      */
     $("#iniciar-sesion").click(() => {
         showMainMenu()
-
     })
 
+    /**
+     * Muestra el bocadillo con el mensaje
+     */
+    $("h1").mouseover( (bocadillo = $(".bocadillo") ) => {
+        $(bocadillo).fadeIn()
+        $(bocadillo).delay(2000).fadeOut()
+    })
+
+    /**
+     * Cierra el mensaje con slide del principio del programa
+     */
+    $("#cerrar-bienvenida").click( () => {
+        $(".bienvenida").hide()
+    })
 
     /**
      * Se encarga de crear los nuevos clientes y añadirlos a la lista de clientes.
@@ -240,7 +274,7 @@ $(document).ready(() => {
     $("#submit-cliente").click(() => {
 
         let i = 0; // contador para dar ID a los clientes en la lista
-        let clientInputs = $("#form-cliente input"), //inputs del formulario de cliente
+        let clientInputs = $("#form-cliente label input"), //inputs del formulario de cliente
             clientInputsValue = clientInputs.map(element => {
                 return clientInputs[element].value
             }) //nuevo array con todos los valores del cliente
@@ -265,6 +299,9 @@ $(document).ready(() => {
         validateClientInfo(provisionalClient) === true ?
             clientsArray.push(provisionalClient) && $("#form-entrenamiento").show() : showWarning()
 
+        if (clientsArray.length === 1) {
+            $("#nombre-cliente").text(clientsArray[selectedClient].name)
+        }
         /**
          * 4. Se añade la información del nuevo cliente a la lista de clientes del programa.
          *
@@ -272,7 +309,7 @@ $(document).ready(() => {
          * que se los pueda seleccionar haciendo clic.
          */
         clientsArray.forEach(element => {
-
+            console.log("a")
             $("#lista-clientes").append($("<li>Nombre : " + element.name +
                 "<br>E-mail : " + element.email +
                 "<br>Altura : " + element.height +
@@ -360,6 +397,9 @@ $(document).ready(() => {
 
     })
 
+    /**
+     * Dependiendo del record que queramos ver, te mostrará uno u otro en un POP UP que aparece y desaparece
+     */
     $("#comprobar-record").click(() => {
         let trainings = clientsArray[selectedClient].trainings
 
@@ -373,13 +413,13 @@ $(document).ready(() => {
 
         switch ($("#select-record").val()) {
             case "1":
-                showRecords("Record de distancia: "+higestDuration)
+                showRecords("Record de distancia: "+longestDistance +" KM")
                 break
             case "2":
-                showRecords("Entrenamiento mas largo: "+longestDistance)
+                showRecords("Entrenamiento mas largo: "+higestDuration + " min")
                 break
             case "3":
-                showRecords("El mejor ritmo fue: "+bestRythm)
+                showRecords("El mejor ritmo fue: "+bestRythm + "KM/min")
                 break;
             default:
                 alert("no funciona esto")
@@ -388,4 +428,5 @@ $(document).ready(() => {
 
 
     })
+
 })

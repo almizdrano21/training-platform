@@ -13,26 +13,16 @@
 <div class="loader-page"></div>
 <!-- HEADER -->
 <header>
-    Gestión de entrenamientos - JS y Jquery - Javier Rodríguez Bueno
+    <h1>Gestión de entrenamientos - Javier Rodríguez Bueno</h1>
     <button id="modonoche">MODO NOCHE</button>
 </header>
 
-<!-- CONTENEDOR INICIAL -->
+
 <div class="wrapper">
-
-    <!-- CONTENEDOR INICIO DE SESIÓN -->
     <div class="inicio-sesion">
-
-        <!-- Título -->
         <h2>Bienvenido</h2>
-
-        <!-- INPUT USUARIO -->
         <input type="text" placeholder="nombre de usuario..." id="username">
-
-        <!-- INPUT CONTRASEÑA -->
         <input type="password" placeholder="contraseña..." id="password">
-
-        <!-- BOTON INICIO DE SESIÓN -->
         <button id="iniciar-sesion">INICIAR SESIÓN</button>
     </div>
 </div>
@@ -46,55 +36,53 @@
     <!-- TITULO -->
     <h2>Añadir clientes</h2><br>
 
-    <label for="nombre-input">Nombre </label>
-    <input type="text" placeholder="Jose Luis Martinez" id="nombre-input">
+    <label for="nombre-input">Nombre <br><input type="text" placeholder="Jose Luis Martinez" id="nombre-input"></label>
 
-    <label for="email-input">Email </label>
-    <input type="email" placeholder="paco@paco.com" id="email-input">
 
-    <label for="altura-input">Altura</label>
-    <input type="number" placeholder="altura (en centímetros)" id="altura-input">
+    <label for="email-input">Email <br><input type="email" placeholder="paco@paco.com" id="email-input"></label>
 
-    <label for="peso-input">Peso </label>
-    <input type="number" placeholder="peso (en kilogramos)" id="peso-input">
 
-    <label for="edad-input">Edad </label>
-    <input type="number" placeholder="edad" id="edad-input">
+    <label for="altura-input">Altura <br><input type="number" placeholder="altura (en centímetros)" id="altura-input"></label>
+
+
+    <label for="peso-input">Peso <br><input type="number" placeholder="peso (en kilogramos)" id="peso-input"></label>
+
+
+    <label for="edad-input">Edad <br><input type="number" placeholder="edad" id="edad-input">
+    </label>
 
     <!-- BOTON GUARDAR -->
     <button id="submit-cliente">GUARDAR</button><br>
-
-    <!-- BOTON VER LISTA DE CLIENTES -->
     <button id="ver-clientes">VER CLIENTES</button>
+
 </div>
 
 <!-- VENTANA LISTA DE CLIENTES -->
 <div class="lista-clientes">
 
     <!-- TITULO Y BOTON DE PARA CERRAR -->
-    <h2>Lista de clientes <button class="cerrar">CERRAR</button></h2>
-
-    <!-- LISTA -->
-    <ul id="lista-clientes"></ul>
+    <h2>Lista de clientes </h2>
 
     <!-- BARRA DE BÚSQUEDA -->
     <input type="text" placeholder="Buscar por nombre..." id="barra-buscar-clientes">
 
+    <!-- LISTA -->
+    <ul id="lista-clientes"></ul>
+
 </div>
 
 <!-- FORMULARIO ENTRENAMIENTOS -->
-<div class="lista-entrenamientos" id="form-entrenamiento">
+<div id="form-entrenamiento">
 
     <!-- TITULO SECCIÓN -->
-    <h2>Añadir entrenamientos a <a href="#" id="nombre-cliente">(seleccione un cliente)</a></h2>
+    <h2>Añadir entrenamientos a <a href="#" id="nombre-cliente">(clic aquí)</a></h2>
 
     <!-- INPUT DURACIÓN -->
-    <label for="duracion-input">Duracion </label>
-        <input type="number" placeholder="duración (en minutos)" id="duracion-input">
+    <label for="duracion-input">Duracion <br><input type="number" placeholder="duración (min)" id="duracion-input">
+    </label>
 
     <!-- INPUT DISTANCIA -->
-    <label for="distancia-input">Distancia </label>
-        <input type="number" placeholder="distancia (en kilometros)" id="distancia-input">
+    <label for="distancia-input">Distancia <br><input type="number" placeholder="distancia (KM)" id="distancia-input"></label>
 
     <!-- BOTON AGREGAR ENTRENAMIENTO -->
     <button id="submit-entrenamiento">Añadir</button>
@@ -129,10 +117,18 @@
 <div class="records-popup">
     <p></p>
 </div>
-<!-- JAVASCRIPT IMPORT -->
-<script src="jquery-3.6.0.js"></script>
-<script src="js.js"></script>
+<div class="bocadillo">
+    <p>Javier Rodríguez Bueno 2DAW - IES MACÍA ABELA</p>
+</div>
+<div class="bienvenida">
+    <h4>Práctica Final Desarrolllo Web Entorno Cliente</h4>
+    <button id="cerrar-bienvenida">X</button>
+</div>
+<footer><h4>Proyecto Final ES6, JQUERY y AJAX</h4></footer>
 
+<!-- JAVASCRIPT IMPORT -->
+<script src="js/jquery-3.6.0.js"></script>
+<script src="js/js.js"></script>
 
 </body>
 </html>
