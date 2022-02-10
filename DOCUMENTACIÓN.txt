@@ -52,7 +52,13 @@ realizado con JS y JQUERY, CSS3 y HTML5
     - Si se hace clic en el botón de GALERIA se muestra el SLIDESHOW de imagenes donde podemos cambiar entre las imagenes haciendo clic en las flechitas.
     para cerrarlo, se hay que hacer clic en el botón de cerrar
 
-    -
+    - Se puede escoger un acompañante usando el SELECT de el formulario de los entrenamientos.
+    Los nombres de los array se sacan de una API de Star Wars
+
+    - El cuadro negro con el saludo de bienvenida se puede arrastrar haciendole clic, he usado ahí el
+    JQUERY UI
+
+    - En los entrenamientos se añade también la temperatura que hace ese día con AJAX desde openweathermap.
 
 
 

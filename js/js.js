@@ -8,6 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////////
 ////// FUNCIONES PARA LA INTERFAZ //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
+
 /**
  * Comprueba que si un elemento no contiene ningun texto y devuelve true si esta vacío
  * @param elemento
@@ -124,19 +125,22 @@ const validateClientInfo = (client) => {
  * @param trainingInfo
  * @returns {{duration: *, difficulty, distance: *, rythm: *}}
  */
-const trainingInitialize = (trainingInfo) => {
 
+const trainingInitialize = (trainingInfo, partner, temperature) => {
+    let date = new Date()
     let duration = trainingInfo[0]
     let distance = trainingInfo[1]
     let rythm = obtainRythm(duration, distance)
     let difficulty = obtainTrainingDifficulty(rythm)
-    let date = new Date()
+    date = date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear()
     return {
         duration,
         distance,
         rythm,
         difficulty,
-        date
+        date,
+        partner,
+        temperature
     }
 
 }
@@ -177,35 +181,39 @@ const obtainTrainingDifficulty = (rythm) => {
  * @param trainings
  * @param trainingList
  */
+
 const showTrainings = (trainings, trainingList) => {
     let i = 0;
     $(trainingList).html("") //se vacía la lista de entrenamientos para que no se repita la informacion
 
+
     trainings.forEach(() => {
 
-        /*
+        /**
         Se añade un <li> con la informacion por cada entrenamiento del array trainings que se le pase.
          */
         $(trainingList).append($("<li><strong>Entrenamiento </strong> " + (i + 1) +
-                " <strong>Duracion: </strong> " + trainings[i].duration + " min." +
-                " <strong>Distancia: </strong> " + trainings[i].distance + "km " +
-                " <strong>Ritmo: </strong> " + trainings[i].rythm + " m/s " +
-                " <strong>Nivel: </strong> " + trainings[i].difficulty + " "+
-                " <strong>Fecha: </strong> " + trainings[i].date +
-                "</li>")
-                .append($("<button>", {
+            " <strong> Duracion: </strong> " + trainings[i].duration + " min." +
+            " <strong> Distancia: </strong> " + trainings[i].distance + "km " +
+            " <strong> Ritmo: </strong> " + trainings[i].rythm + " m/s " +
+            " <strong> Nivel: </strong> " + trainings[i].difficulty + " "+
+            " <strong> Fecha: </strong> " + trainings[i].date +
+            " <strong> Acompañante: </strong> " + trainings[i].partner +
+            " <strong> Temperatura: </strong> " + trainings[i].temperature +
+            "ºC </li>")
+            .append($("<button>", {
 
-                    "text": "ELIMINAR",
-                    "id": i.toString()
+                "text": "ELIMINAR",
+                "id": i.toString()
 
-                }).click(e => { //elimina por completo el entrenamiento al que hace referencia
+            }).click(e => { //elimina por completo el entrenamiento al que hace referencia
+                trainings.splice($(e.target).attr("id"), 1)
+                $(e.target).closest("li").hide()
 
-                    trainings.splice($(e.target).attr("id"), 1)
-                    $(e.target).closest("li").hide()
-
-                })))
+            })))
         i++;
     })
+
 }
 /**
  * Hace desaparecer la animación de loading cuando la página carga y otros elementos
@@ -219,7 +227,6 @@ $(window).on('load', () => {
     $(".records-popup").hide()
     $(".bocadillo").hide()
 
-
     greetingAnimation()
 
 })
@@ -229,7 +236,37 @@ $(document).ready(() => {
     let clientsArray = [], //array con los clientes
         selectedClient = 0, //posición en clientsArray de el cliente seleccionado
         nightModeNumber = 1, //contador para el modo noche
-        clientList = $(".lista-clientes") // lista de clientes
+        clientList = $(".lista-clientes"), // lista de clientes
+        temperature
+
+    /**
+    Recoje la temperatura actual con ajax.
+     */
+    $.ajax({
+        type: 'GET',
+        url: 'https://api.openweathermap.org/data/2.5/weather?q=spain&appid=0ded9adb788b472da47a3612195a7209&units=metric',
+        dataType: 'json'
+    }).done( a => {
+        temperature = a.main.temp
+    })
+
+    /**
+     * Hace arrastrable el cuadradito negro de vienbenida
+     */
+    $(".bienvenida").draggable()
+
+    /**
+     * Usando AJAX accede a la API de star wars para mostrar acompañantes para salir a correr
+     */
+    $.ajax({
+        type: 'GET',
+        url: 'https://swapi.dev/api/people',
+        dataType: 'json'
+    }).done( a => {
+        for (let i = 0; i < 20; i++) {
+            $("#liebres").append($("<option>"+a.results[i].name+"</option>"))
+        }
+    })
 
     /**
      * Si el número del modo oscuro es par se activa, si es impar, se desactiva
@@ -311,10 +348,10 @@ $(document).ready(() => {
         clientsArray.forEach(element => {
             console.log("a")
             $("#lista-clientes").append($("<li>Nombre : " + element.name +
-                "<br>E-mail : " + element.email +
-                "<br>Altura : " + element.height +
-                "<br>Peso : " + element.weight +
-                "<br>Edad : " + element.age + " </li>").append($("<button>", {
+                "<br> E-mail : " + element.email +
+                "<br> Altura : " + element.height +
+                "<br> Peso : " + element.weight +
+                "<br> Edad : " + element.age + " </li>").append($("<button>", {
                 "text": " SELECCIONAR",
                 "value": "paco",
                 "id": i.toString()
@@ -382,14 +419,14 @@ $(document).ready(() => {
         let trainingInputValues = trainingInputs.map(element => {
             return trainingInputs[element].value
         })
-
+        let partnerValue = $("#liebres").val()
         /*
          * Si la información del nuevo entrenamiento es correcta, se añade a los entrenamientos del cliente.
          * Si no es correcta, muestra el POP UP de error
          */
         if ($("#duracion-input").val() !== "" && $("#distancia-input").val() !== "") {
 
-            let provisionalTraining = trainingInitialize(trainingInputValues)
+            let provisionalTraining = trainingInitialize(trainingInputValues, partnerValue, temperature)
             clientsArray[selectedClient].trainings.push(provisionalTraining)
             showTrainings(clientsArray[selectedClient].trainings, $("#lista-entrenamientos"))
 
